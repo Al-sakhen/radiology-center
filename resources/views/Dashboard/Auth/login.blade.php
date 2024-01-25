@@ -63,6 +63,19 @@
                                     <h2>Sign In</h2>
                                     <p>Enter your email and password to login</p>
 
+
+                                    <ul class="mt-3 list-disc list-inside text-sm text-danger">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+
+                                    @if (session('status'))
+                                        <div class="mb-4 font-medium text-sm text-green-600">
+                                            {{ session('status') }}
+                                        </div>
+                                    @endif
+
                                 </div>
                                 <form method="post" action="{{ route('admin.checkLogin') }}">
                                     @csrf
@@ -83,7 +96,9 @@
 
                                         </div>
                                     </div>
-
+                                    <a class="mb-2 d-block" href="{{ route('password.request') }}">
+                                        Forget password ?
+                                    </a>
                                     <div class="col-12">
                                         <div class="mb-4">
                                             <button type="submit" class="btn btn-secondary w-100">SIGN IN</button>
