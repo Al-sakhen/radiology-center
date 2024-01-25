@@ -17,15 +17,16 @@ use Illuminate\Support\Facades\Route;
 
 // --------------------------------------------------------
 // =================== Admin Routes ===================
-Route::controller(AdminController::class)->group(function () {
-    Route::get('/',  'index')->name('index');
-    Route::get('/create',  'create')->name('create');
-    Route::post('/store',  'store')->name('store');
-    Route::get('/edit/{id}',  'edit')->name('edit');
-    Route::post('/update/{id}',  'update')->name('update');
-    Route::get('/destroy/{id}',  'destroy')->name('destroy');
-    Route::get('toggle-status/{id}',  'toggleStatus')->name('toggleStatus');
-});
+Route::controller(AdminController::class)
+    ->group(function () {
+        Route::get('/',  'index')->name('index');
+        Route::get('/create',  'create')->name('create');
+        Route::post('/store',  'store')->name('store');
+        Route::get('/edit/{id}',  'edit')->name('edit');
+        Route::post('/update/{id}',  'update')->name('update');
+        Route::get('/destroy/{id}',  'destroy')->name('destroy');
+        Route::get('toggle-status/{id}',  'toggleStatus')->name('toggleStatus');
+    });
 // ----------------- End Admin Routes -------------------
 // ***************************************************************
 
@@ -33,7 +34,8 @@ Route::controller(AdminController::class)->group(function () {
 
 // --------------------------------------------------------
 // =================== Roles Routes ===================
-Route::prefix('role')->name('role.')
+Route::prefix('role')
+    ->name('role.')
     ->controller(RoleController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');
@@ -47,7 +49,8 @@ Route::prefix('role')->name('role.')
 
 // --------------------------------------------------------
 // =================== Permission Routes ===================
-Route::prefix('permission')->name('permission.')
+Route::prefix('permission')
+    ->name('permission.')
     ->controller(PermissionController::class)
     ->group(function () {
         Route::get('/', 'create')->name('create');
@@ -59,7 +62,8 @@ Route::prefix('permission')->name('permission.')
 
 // --------------------------------------------------------
 // =================== MedicalImage Routes ===================
-Route::prefix('medicalImage')->name('medicalImage.')
+Route::prefix('medicalImage')
+    ->name('medicalImage.')
     ->controller(MedicalImageController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');
@@ -73,28 +77,32 @@ Route::prefix('medicalImage')->name('medicalImage.')
 // =================== Patient Routes ===================
 Route::group(['prefix' => 'patient', 'as' => 'patient.'], function () {
 
-    Route::controller(PatientController::class)->group(function () {
-        Route::get('/',  'index')->name('index');
-        Route::get('/create',  'create')->name('create');
-        Route::post('/',  'store')->name('store');
-        Route::post('/search',  'search')->name('search');
-        Route::get('toggle-status/{id}',   'toggleStatus')->name('toggleStatus');
-        Route::get('inactive-patients',   'showInactivePatients')->name('showInactivePatients');
-        Route::get('/edit/{id}',  'edit')->name('edit');
-        Route::post('/update/{id}',  'update')->name('update');
-        Route::get('/destroy/{id}',  'destroy')->name('destroy');
-    });
+    Route::controller(PatientController::class)
+        ->group(function () {
+            Route::get('/',  'index')->name('index');
+            Route::get('/create',  'create')->name('create');
+            Route::post('/',  'store')->name('store');
+            Route::post('/search',  'search')->name('search');
+            Route::get('toggle-status/{id}',   'toggleStatus')->name('toggleStatus');
+            Route::get('inactive-patients',   'showInactivePatients')->name('showInactivePatients');
+            Route::get('/edit/{id}',  'edit')->name('edit');
+            Route::post('/update/{id}',  'update')->name('update');
+            Route::get('/destroy/{id}',  'destroy')->name('destroy');
+            Route::get('{id}/reports',  'showPatientReports')->name('reports');
+        });
 
-    Route::controller(RegisterController::class)->group(function () {
-        Route::post('/register',  'register')->name('register');
-        Route::post('/physician',  'physician')->name('physician');
-    });
+    Route::controller(RegisterController::class)
+        ->group(function () {
+            Route::post('/register',  'register')->name('register');
+            Route::post('/physician',  'physician')->name('physician');
+        });
 
-    Route::controller(ReportController::class)->group(function () {
-        Route::get('/report/{registerId}',  'create')->name('report');
-        Route::post('/report',  'store')->name('report.store');
-        Route::get('/report/print/{registerId}',  'print')->name('report.print');
-    });
+    Route::controller(ReportController::class)
+        ->group(function () {
+            Route::get('/report/{registerId}',  'create')->name('report');
+            Route::post('/report',  'store')->name('report.store');
+            Route::get('/report/print/{registerId}',  'print')->name('report.print');
+        });
 });
 // ----------------- End Patient Routes -------------------
 // ***************************************************************
@@ -102,7 +110,8 @@ Route::group(['prefix' => 'patient', 'as' => 'patient.'], function () {
 
 // --------------------------------------------------------
 // =================== Center Information Routes ===================
-Route::prefix('centerInformation')->name('centerInformation.')
+Route::prefix('centerInformation')
+    ->name('centerInformation.')
     ->controller(CenterInformationController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');
@@ -114,7 +123,8 @@ Route::prefix('centerInformation')->name('centerInformation.')
 
 // --------------------------------------------------------
 // =================== ContactUs Routes ===================
-Route::prefix('contact-us')->name('contactUs.')
+Route::prefix('contact-us')
+    ->name('contactUs.')
     ->controller(ContactUsController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');

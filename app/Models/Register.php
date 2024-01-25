@@ -9,13 +9,15 @@ class Register extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['patient_id','admin_id',
-    'medical_image_id',
-    'type',
-    'description'];
+    protected $fillable = [
+        'patient_id', 'admin_id',
+        'medical_image_id',
+        'type',
+        'description'
+    ];
 
-    public function patiants(){
-
-        return $this->belongsTo(Patient::class,'patient_id','id');
+    public function patiants()
+    {
+        return $this->belongsTo(Patient::class, 'patient_id', 'id')->with('reports');
     }
 }

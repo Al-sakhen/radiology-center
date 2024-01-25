@@ -58,7 +58,8 @@ class AdminController extends Controller
 
     public function edit($id)
     {
-        if (!auth()->user()->hasRole('Manager') || !auth()->user()->id == $id) {
+    
+        if (!auth()->user()->id == $id) {
             toast('you can not edit this user!', 'error');
             return redirect()->back();
         }
@@ -104,6 +105,11 @@ class AdminController extends Controller
         }
 
         $admin = Admin::findOrFail($id);
+
+        if ($admin->registers) {
+            toast('You can not delete this admin!', 'error');
+            return redirect()->back();
+        }
         $admin->delete();
         toast('admin deleted succsessfuly!', 'success');
 

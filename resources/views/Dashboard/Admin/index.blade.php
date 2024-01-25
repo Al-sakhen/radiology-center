@@ -21,11 +21,10 @@
                             <th scope="col">Email</th>
                             <th scope="col">Phone</th>
                             <th scope="col">Roles</th>
-                            <th scope="col">Status</th>
-                            @if (auth()->user()->hasRole('Admin') ||
-                                    auth()->user()->hasRole('Manager'))
+                            @role('Manager')
+                                <th scope="col">Status</th>
                                 <th class="text-center" scope="col">Actions</th>
-                            @endif
+                            @endrole
                         </tr>
                     </thead>
                     <tbody>
@@ -59,15 +58,15 @@
                                         </span>
                                     @endforelse
                                 </td>
-                                <td class="d-flex justify-content-between">
-                                    @if ($admin->status == 'active')
-                                        <span class="badge badge-light-success">Active</span>
-                                    @else
-                                        <span class="badge badge-light-danger">Inactive</span>
-                                    @endif
-                                </td>
+                                @role('Manager')
+                                    <td class="d-flex justify-content-between">
+                                        @if ($admin->status == 'active')
+                                            <span class="badge badge-light-success">Active</span>
+                                        @else
+                                            <span class="badge badge-light-danger">Inactive</span>
+                                        @endif
+                                    </td>
 
-                                @role('Admin|Manager')
                                     <td class="text-center">
                                         <div class="action-btns d-flex align-items-center justify-content-center gap-2">
 
@@ -81,19 +80,17 @@
                                                 @endif
                                             </a>
 
-                                            @role('Manager')
-                                                <a href="{{ route('admin.edit', $admin->id) }}"
-                                                    class="action-btn btn-edit bs-tooltip " data-toggle="tooltip"
-                                                    data-placement="top" title="" data-bs-original-title="Edit">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                        class="feather feather-edit-2">
-                                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
-                                                        </path>
-                                                    </svg>
-                                                </a>
-                                            @endrole
+                                            <a href="{{ route('admin.edit', $admin->id) }}"
+                                                class="action-btn btn-edit bs-tooltip " data-toggle="tooltip"
+                                                data-placement="top" title="" data-bs-original-title="Edit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-edit-2">
+                                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
+                                                    </path>
+                                                </svg>
+                                            </a>
                                             <a href="{{ route('admin.destroy', $admin->id) }}"
                                                 onclick="return confirm('Are you sure you want to delete this item?');"
                                                 class="action-btn btn-delete bs-tooltip" data-toggle="tooltip"

@@ -17,7 +17,7 @@
 <body style="padding:30px">
     <div style="border-bottom:3px solid #ccc;text-align:center">
         <h1>{{ $data->center_name }}</h1>
-        <p style="font-size:30px;">{{ $data->center_description }}</p>
+        <p style="font-size:30px;">{!! $data->center_description !!}</p>
         <p style="font-size:20px;">{{ $admin->name }}</p>
         <p style="font-size:15px;">{{ $data->center_address }}</p>
         <h2 style="font-size:12px;"> تلفون : <span>{{ $data->center_phone }}</span></h2>
@@ -38,7 +38,7 @@
                     {{ $data->doctor_name }}
                 </td>
                 <td style="border:1px solid #000;padding:5px"> sex : </td>
-                <td style="border:1px solid #000;padding:5px"> </td>
+                <td style="border:1px solid #000;padding:5px">{{ $pateint->gender }}</td>
             </tr>
 
             <tr style="border:1px solid #000">
@@ -54,9 +54,6 @@
 
         </table>
     </div>
-
-
-
 
     <div style="direction: ltr">
         {!! $data->description !!}

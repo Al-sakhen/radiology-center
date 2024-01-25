@@ -38,12 +38,12 @@
 
             <ul class="navbar-item theme-brand flex-row  text-center">
                 <li class="nav-item theme-logo">
-                    <a href="index.html">
+                    <a href="#">
                         <img src="{{ asset('AdminAssets/img/logo.png') }}" class="navbar-logo" alt="logo">
                     </a>
                 </li>
                 <li class="nav-item theme-text">
-                    <a href="index.html" class="nav-link"> SM-Electro </a>
+                    <a href="#" class="nav-link"> SM-Electro </a>
                 </li>
             </ul>
 
@@ -301,29 +301,8 @@
                                 </svg> <span>Profile</span>
                             </a>
                         </div>
-                        <div class="dropdown-item">
-                            <a href="app-mailbox.html">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-inbox">
-                                    <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
-                                    <path
-                                        d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z">
-                                    </path>
-                                </svg> <span>Inbox</span>
-                            </a>
-                        </div>
-                        <div class="dropdown-item">
-                            <a href="auth-boxed-lockscreen.html">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock">
-                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2">
-                                    </rect>
-                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                                </svg> <span>Lock Screen</span>
-                            </a>
-                        </div>
+
+
                         <div class="dropdown-item">
                             <a href="{{ route('admin.logout') }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -357,13 +336,13 @@
                 <div class="navbar-nav theme-brand flex-row  text-center">
                     <div class="nav-logo">
                         <div class="nav-item theme-logo">
-                            <a href="./index.html">
+                            <a href="#">
                                 <img src="{{ asset('AdminAssets/img/logo.png') }}" class="navbar-logo"
                                     alt="logo">
                             </a>
                         </div>
                         <div class="nav-item theme-text">
-                            <a href="./index.html" class="nav-link"> SM-Electro </a>
+                            <a href="#" class="nav-link"> SM-Electro </a>
                         </div>
                     </div>
                     <div class="nav-item sidebar-toggle">
@@ -433,7 +412,7 @@
                                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                         <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                     </svg>
-                                    <span>Roles & Permissions</span>
+                                    <span>Roles</span>
                                 </div>
                                 <div>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -451,9 +430,9 @@
                                 <li class="active">
                                     <a href="{{ route('admin.role.index') }}"> Roles </a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="{{ route('admin.permission.create') }}"> Create Permission</a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </li>
                         <li class="menu active">
@@ -509,14 +488,18 @@
                                 </svg>
                             </div>
                         </a>
-                        <ul class="collapse submenu list-unstyled" id="patients" data-bs-parent="#accordionExample">
+                        <ul @class([
+                            'collapse submenu list-unstyled',
+                            'show' => request()->routeIs('admin.patient.*'),
+                        ]) id="patients" data-bs-parent="#accordionExample">
                             <li class="active">
                                 <a href="{{ route('admin.patient.index') }}"> Index </a>
                             </li>
-
-                            <li>
-                                <a href="{{ route('admin.patient.create') }}"> Create</a>
-                            </li>
+                            @role('Admin|Manager')
+                                <li>
+                                    <a href="{{ route('admin.patient.create') }}"> Create</a>
+                                </li>
+                            @endrole
 
 
                         </ul>

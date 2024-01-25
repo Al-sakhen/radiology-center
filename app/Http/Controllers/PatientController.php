@@ -8,7 +8,6 @@ use App\Models\MedicalImage;
 use App\Models\Patient;
 use App\Models\Register;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
@@ -163,5 +162,17 @@ class PatientController extends Controller
         $patient->delete();
         toast('Patient deleted succsessfuly!', 'success');
         return redirect()->back();
+    }
+
+
+    public function showPatientReports($id)
+    {
+        $patient = Patient::with('reports')->find($id);
+        if (!$patient) {
+            toast('Patient not found!', 'error');
+            return redirect()->back();
+        }
+
+        return view('Dashboard.Patient.reports', compact('patient'));
     }
 }

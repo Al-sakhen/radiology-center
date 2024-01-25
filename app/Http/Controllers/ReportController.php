@@ -16,11 +16,21 @@ class ReportController extends Controller
     {
 
         $registerId = $request->route('registerId');
-        return view('Dashboard.Report.create', compact('registerId'));
+        $register = Register::findOrFail($registerId);
+        return view('Dashboard.Report.create', compact('registerId', 'register'));
     }
 
     public function store(Request $request)
     {
+        $request->validate([
+            'center_name' => 'required',
+            'center_description' => 'required',
+            'doctor_name' => 'required',
+            'center_address' => 'required',
+            'center_phone' => 'required',
+            'description' => 'required',
+            'register_id' => 'required',
+        ]);
 
         $report = Report::create([
             'center_name' => $request->center_name,
@@ -38,10 +48,8 @@ class ReportController extends Controller
             ]);
         }
 
-
         toast('report created succsessfuly!', 'success');
-
-        return redirect()->route('admin.patient.create');
+        return redirect()->route('admin.patient.index');
     }
 
     public function print($id)

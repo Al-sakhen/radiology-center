@@ -58,16 +58,16 @@
                             <div class="form-group my-2 col-md-6">
                                 <label for="doctor_name" class="">Doctor name</label>
                                 <input id="doctor_name" type="text" name="doctor_name" placeholder="doctor name..."
-                                    value="{{ old('doctor_name') }}" class="form-control" required>
+                                    value="{{ old('doctor_name', auth()->user()->name) }}" class="form-control" required>
 
                                 @error('doctor_name')
                                     <p class="text text-danger mt-2"> {{ $message }} </p>
                                 @enderror
                             </div>
 
-                            <div class="form-group my-2 col-md-6">
+                            <div class="form-group my-2">
                                 <label for="center_description">Center description </label>
-                                <textarea id="center_description" name="center_description" readonly class="form-control description">{{ old('center_description', $public_center_informations->description) }}</textarea>
+                                <textarea id="center_description" name="center_description" readonly class="form-control description">{{ old('center_description') }}</textarea>
 
 
                                 @error('center_description')
@@ -76,10 +76,18 @@
                             </div>
 
 
+                            <div class="form-group my-2 col-md-6">
+                                <label class="">Image</label>
+
+                                <img src="{{ asset('storage/' . $register->image) }}" alt=""
+                                    style="max-height: 400px">
+                            </div>
+
+
 
                             <div class="form-group my-2">
-                                <label for="description">description </label>
-                                <textarea id="description" name="description" class="form-control description"> {{ old('address') }}</textarea>
+                                <label for="description">Patient Description </label>
+                                <textarea id="description" name="description" class="form-control description"> {{ old('description') }}</textarea>
 
                                 @error('description')
                                     <p class="text text-danger mt-2"> {{ $message }} </p>

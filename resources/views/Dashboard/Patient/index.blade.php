@@ -66,6 +66,7 @@
 
                                             <div class="media-body align-self-center">
                                                 <h6 class="mb-0">
+                                                    {{ $patient->id }} -
                                                     {{ $patient->patiants ? $patient->patiants->name : $patient->name }}
                                                 </h6>
 
@@ -134,9 +135,9 @@
 
                                             @if ($patient->type == 'done')
                                                 <a href="{{ route('admin.patient.report.print', $patient->id) }}"
-                                                    target="_blank"
-                                                    class="action-btn btn-view bs-tooltip " data-toggle="tooltip"
-                                                    data-placement="top" title="" data-bs-original-title="Report">
+                                                    target="_blank" class="action-btn btn-view bs-tooltip "
+                                                    data-toggle="tooltip" data-placement="top" title=""
+                                                    data-bs-original-title="Report">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="w-6 h-6">
@@ -146,13 +147,31 @@
 
                                                 </a>
                                             @endif
-                                            @if (Auth::guard('admin')->user()->hasRole('Doctor') ||
-                                                    Auth::guard('admin')->user()->hasRole('Radiologist'))
-                                                <a href="javascript:void(0);" data-id=<?= $patient->patient_id ?>
+
+                                            @role('Doctor')
+                                                @if ($patient->type == 'wait')
+                                                    <a href="javascript:void(0);" data-id=<?= $patient->patient_id ?>
+                                                        data-register-id=<?= $patient->id ?> data-bs-toggle="modal"
+                                                        data-bs-target="#registerModal" class="action-btn btn-view bs-tooltip "
+                                                        data-toggle="tooltip" data-placement="top" title=""
+                                                        data-bs-original-title="View">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                            class="feather feather-eye">
+                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                            <circle cx="12" cy="12" r="3"></circle>
+                                                        </svg>
+                                                    </a>
+                                                @endif
+                                            @endrole
+
+                                            @role('Radiologist')
+                                                <a href="javascript:void(0);" data-id=<?= $patient->id ?>
                                                     data-register-id=<?= $patient->id ?> data-bs-toggle="modal"
-                                                    data-bs-target="#registerModal" class="action-btn btn-view bs-tooltip "
-                                                    data-toggle="tooltip" data-placement="top" title=""
-                                                    data-bs-original-title="View">
+                                                    data-bs-target="#registerModal{{ $patient->id }}"
+                                                    class="action-btn btn-view bs-tooltip " data-toggle="tooltip"
+                                                    data-placement="top" title="" data-bs-original-title="View">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -160,6 +179,16 @@
                                                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                                         <circle cx="12" cy="12" r="3"></circle>
                                                     </svg>
+                                                </a>
+                                            @endrole
+
+                                            @if (Auth::guard('admin')->user()->hasRole('Doctor') ||
+                                                    Auth::guard('admin')->user()->hasRole('Radiologist'))
+                                                <a href="{{ route('admin.patient.reports', $patient->patient_id) }}"
+                                                    class="action-btn btn-view bs-tooltip " data-toggle="tooltip"
+                                                    data-placement="top" title=""
+                                                    data-bs-original-title="Show Reports">
+                                                    <i class="fa-solid fa-list"></i>
                                                 </a>
                                             @else
                                                 <a href="javascript:void(0);" data-id=<?= $patient->id ?>
@@ -213,6 +242,58 @@
                                         </div>
                                     </td>
                                 </tr>
+
+
+                                @role('Radiologist')
+                                    {{-- ==========Registered data modal for the Radiologist --}}
+                                    <div class="modal fade" id="registerModal{{ $patient->id }}" tabindex="-1"
+                                        aria-labelledby="registerModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Register Details
+
+                                                        {{ $patient->id }}
+                                                    </h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form method="post" action="{{ route('admin.patient.physician') }}"
+                                                        enctype="multipart/form-data">
+                                                        @csrf
+
+                                                        <label>Description</label>
+                                                        <textarea name="description" class="form-control" readonly>{{ $patient->description }}</textarea>
+
+                                                        <input type="hidden" name="register_id" id="register_id" />
+                                                        <label>medical Image</label>
+                                                        <select class="form-select" readonly disabled>
+                                                            @foreach ($medicalImages as $medicalImage)
+                                                                <option value="{{ $medicalImage->id }}"
+                                                                    @selected($patient->medical_image_id == $medicalImage->id)>
+                                                                    {{ $medicalImage->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+
+                                                        <label>Image</label>
+                                                        <input type="file" name="image" />
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" name="end"
+                                                                class="btn btn-danger">End</button>
+                                                        </div>
+                                                        <input type="hidden" name="register_id"
+                                                            value="{{ $patient->id }}">
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endrole
                             @empty
 
                                 <tr>
@@ -230,8 +311,6 @@
     </div>
 
     <!-- register Modal -->
-
-
     <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -250,7 +329,7 @@
 
                         <input type="hidden" name="register_id" id="register_id" />
                         <label>medical Image</label>
-                        <select class="form-select">
+                        <select class="form-select" name="medical_image_id">
                             @foreach ($medicalImages as $medicalImage)
                                 <option value="{{ $medicalImage->id }}">{{ $medicalImage->name }}</option>
                             @endforeach
@@ -311,7 +390,6 @@
         let registreions = document.querySelectorAll("[data-register-id]");
         for (let i = 0; i < registreions.length; i++) {
             registreions[i].addEventListener("click", function() {
-                console.log(registreions[i]);
                 register_id.value = this.getAttribute("data-register-id");
             })
         }

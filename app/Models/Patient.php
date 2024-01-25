@@ -14,6 +14,13 @@ class Patient extends Model
 
     public function register()
     {
-        return $this->hasOne(Register::class);
+        // return $this->hasOne(Register::class);
+        return $this->hasMany(Register::class);
+    }
+
+    public function reports()
+    {
+        // we can get the reports throw the register
+        return $this->hasManyThrough(Report::class, Register::class)->orderBy('created_at', 'asc');
     }
 }

@@ -5,10 +5,10 @@
         <div class="card-body">
             <div class="widget-header d-flex align-items-center justify-content-between">
                 <h4>Roles</h4>
-                <a href="{{ route('admin.role.create') }}" class="btn btn-primary">Add New Role</a>
+                {{-- <a href="{{ route('admin.role.create') }}" class="btn btn-primary">Add New Role</a> --}}
 
             </div>
-            <div class="widget-content widget-content-area">
+            <div class="card-body">
 
                 <p class="mb-4">Show All Roles </p>
                 <div class="table-responsive">
@@ -19,7 +19,7 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Usere Count</th>
 
-                                <th class="text-center" scope="col">Actions</th>
+                                {{-- <th class="text-center" scope="col">Actions</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -32,7 +32,7 @@
                                     <td>
                                         <span class="mb-0">{{ $role->users_count }}</span>
                                     </td>
-                                    <td class="text-center">
+                                    {{-- <td class="text-center">
                                         <div class="action-btns">
                       
                                             <a href="{{ route('admin.edit', $role->id) }}"
@@ -64,7 +64,7 @@
                                                 </svg>
                                             </a>
                                         </div>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @endforeach
                         </tbody>

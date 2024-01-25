@@ -9,12 +9,18 @@ class Report extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['center_name','center_description','doctor_name','center_address','center_phone','description','register_id'];
+    protected $fillable = [
+        'center_name',
+        'center_description',
+        'doctor_name',
+        'center_address',
+        'center_phone',
+        'description',
+        'register_id'
+    ];
 
-    public function Register(){
-
-        return $this->hasOne(Register::class,'id','register_id');
+    public function Register()
+    {
+        return $this->hasOne(Register::class, 'id', 'register_id')->with('patiants');
     }
 }
-
-

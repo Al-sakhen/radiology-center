@@ -20,7 +20,11 @@ class Admin extends Authenticatable
     // ==================== Start Relation ====================
     public function roles()
     {
-
         return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id', 'id', 'id');
+    }
+
+    public function registers()
+    {
+        return $this->hasMany(Register::class);
     }
 }
