@@ -38,10 +38,10 @@
                                         </label>
                                         @foreach ($permissions as $permission)
                                             <div class="col-lg-5">
-
-                                                <label for="permission" class="">{{ $permission->name }}</label>
-                                                <input id="permission" type="checkbox" name="permission_ids[]"
-                                                    value="{{ $permission->id }}">
+                                                <label for="permission-{{ $permission->id }}"
+                                                    class="">{{ $permission->name }}</label>
+                                                <input id="permission-{{ $permission->id }}" type="checkbox"
+                                                    name="permission_ids[]" value="{{ $permission->id }}">
                                             </div>
                                         @endforeach
                                     </div>

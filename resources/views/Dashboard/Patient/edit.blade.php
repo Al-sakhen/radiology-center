@@ -12,14 +12,15 @@
                 </div>
                 <div class="widget-content widget-content-area">
 
-                    <form method="post" action="{{ route('admin.patient.store') }}">
+                    <form method="post" action="{{ route('admin.patient.update' , $patient->id) }}">
                         @csrf
 
                         <div class="row">
                             <div class="form-group col-md-6 my-2">
                                 <label for="name" class="">Name</label>
-                                <input id="name" type="text" name="name" value="{{ old('name') }}"
-                                    placeholder="Name..." class="form-control" required>
+                                <input id="name" type="text" name="name"
+                                    value="{{ old('name', $patient->name) }}" placeholder="Name..." class="form-control"
+                                    required>
 
                                 @error('name')
                                     <p class="text text-danger"> {{ $message }} </p>
@@ -30,7 +31,8 @@
                             <div class="form-group col-md-6 my-2">
                                 <label for="id" class="">ID</label>
                                 <input id="id" type="text" name="national_number" placeholder="national number..."
-                                    value="{{ old('id') }}" class="form-control" required>
+                                    value="{{ old('national_number', $patient->national_number) }}" class="form-control"
+                                    required>
 
                                 @error('national_number')
                                     <p class="text text-danger"> {{ $message }} </p>
@@ -42,7 +44,7 @@
                             <div class="form-group col-md-6 my-2">
                                 <label for="phone" class="">Phone</label>
                                 <input id="phone" type="text" name="phone" placeholder="Phone..."
-                                    value="{{ old('phone') }}" class="form-control" required>
+                                    value="{{ old('phone', $patient->phone) }}" class="form-control" required>
 
                                 @error('phone')
                                     <p class="text text-danger"> {{ $message }} </p>
@@ -53,7 +55,7 @@
                             <div class="form-group col-md-6 my-2">
 
                                 <label for="dob" class="">DOB</label>
-                                <input id="dob" type="date" name="dob" value="{{ old('dob') }}"
+                                <input id="dob" type="date" name="dob" value="{{ old('dob', $patient->DOB) }}"
                                     class="form-control" required>
                                 @error('dob')
                                     <p class="text text-danger"> {{ $message }} </p>
@@ -63,8 +65,9 @@
 
                             <div class="form-group col-md-6 my-2">
                                 <label for="address" class="">address</label>
-                                <input id="address" type="text" name="address" value="{{ old('address') }}"
-                                    placeholder="Password..." class="form-control" required>
+                                <input id="address" type="text" name="address"
+                                    value="{{ old('address', $patient->address) }}" placeholder="Password..."
+                                    class="form-control" required>
                                 @error('address')
                                     <p class="text text-danger"> {{ $message }} </p>
                                 @enderror
@@ -74,10 +77,10 @@
                                 <label for="gender" class="">gender</label>
 
                                 <select name="gender" id="gender" class="form-control" required>
-                                    <option value="male" selected>
+                                    <option value="male" @selected($patient->gender == 'male')>
                                         male
                                     </option>
-                                    <option value="female">
+                                    <option value="female" @selected($patient->gender == 'female')>
                                         female
                                     </option>
                                 </select>
@@ -88,7 +91,7 @@
                             </div>
                         </div>
 
-                        <input type="submit" name="txt" value="Add" class="mt-4 btn btn-primary">
+                        <input type="submit" value="Update" class="mt-4 btn btn-primary">
                     </form>
 
                 </div>

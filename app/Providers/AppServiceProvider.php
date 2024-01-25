@@ -1,8 +1,12 @@
 <?php
 
 namespace App\Providers;
+
+use App\Models\CenterInformation;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,5 +25,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
         Paginator::useBootstrapFour();
+
+
+        View::composer('*', function ($view) {
+            $public_center_informations = CenterInformation::first() ?? new CenterInformation();
+            view()->share(compact('public_center_informations'));
+        });
     }
 }

@@ -19,10 +19,9 @@
                         <input type="text" name="name" class="form-control" placeholder="search ... " />
                         <div class="d-flex align-items-center justify-content-between">
                             @role('Admin|Manager')
-                                <a href="{{ route('admin.patient.showInactivePatients') }}"
-                                    class="btn btn-primary my-3 float-end {{ request()->has('status') ? 'active' : '' }}"
-                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Show active patients">
-                                    Show inactive patients
+                                <a href="{{ route('admin.patient.index') }}" class="btn btn-primary my-3 float-end"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Active patients">
+                                    Active patients
                                 </a>
                             @endrole
                             <input type="submit" value="search" class="btn btn-secondary my-3 float-end" />
@@ -40,15 +39,9 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Address</th>
                                 <th scope="col">Phone</th>
-                                @role('Doctor')
-                                    <th scope="col">status</th>
-                                @endrole
-
                                 @role('Admin|Manager')
                                     <th scope="col">status</th>
                                 @endrole
-
-
                                 <th scope="col">Age</th>
                                 <th scope="col">Actions</th>
                             </tr>
@@ -116,100 +109,6 @@
                                                     @endif
                                                 </a>
                                             @endrole
-
-
-                                            @if (Auth::guard('admin')->user()->hasRole('Doctor') && $patient->type == 'end')
-                                                <a href="{{ route('admin.patient.report', $patient->id) }}"
-                                                    class="action-btn btn-view bs-tooltip " data-toggle="tooltip"
-                                                    data-placement="top" title="" data-bs-original-title="Report">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="w-6 h-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                    </svg>
-
-                                                </a>
-                                            @endif
-
-                                            @if ($patient->type == 'done')
-                                                <a href="{{ route('admin.patient.report.print', $patient->id) }}"
-                                                    target="_blank"
-                                                    class="action-btn btn-view bs-tooltip " data-toggle="tooltip"
-                                                    data-placement="top" title="" data-bs-original-title="Report">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="w-6 h-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5zm-3 0h.008v.008H15V10.5z" />
-                                                    </svg>
-
-                                                </a>
-                                            @endif
-                                            @if (Auth::guard('admin')->user()->hasRole('Doctor') ||
-                                                    Auth::guard('admin')->user()->hasRole('Radiologist'))
-                                                <a href="javascript:void(0);" data-id=<?= $patient->patient_id ?>
-                                                    data-register-id=<?= $patient->id ?> data-bs-toggle="modal"
-                                                    data-bs-target="#registerModal" class="action-btn btn-view bs-tooltip "
-                                                    data-toggle="tooltip" data-placement="top" title=""
-                                                    data-bs-original-title="View">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="feather feather-eye">
-                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                        <circle cx="12" cy="12" r="3"></circle>
-                                                    </svg>
-                                                </a>
-                                            @else
-                                                <a href="javascript:void(0);" data-id=<?= $patient->id ?>
-                                                    data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                    class="action-btn btn-view bs-tooltip " data-toggle="tooltip"
-                                                    data-placement="top" title=""
-                                                    data-bs-original-title="register">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                        fill="currentColor" class="w-5 h-5">
-                                                        <path
-                                                            d="M5.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H6a.75.75 0 01-.75-.75V12zM6 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H6zM7.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H8a.75.75 0 01-.75-.75V12zM8 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H8zM9.25 10a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H10a.75.75 0 01-.75-.75V10zM10 11.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V12a.75.75 0 00-.75-.75H10zM9.25 14a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H10a.75.75 0 01-.75-.75V14zM12 9.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V10a.75.75 0 00-.75-.75H12zM11.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H12a.75.75 0 01-.75-.75V12zM12 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H12zM13.25 10a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H14a.75.75 0 01-.75-.75V10zM14 11.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V12a.75.75 0 00-.75-.75H14z" />
-                                                        <path fill-rule="evenodd"
-                                                            d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z"
-                                                            clip-rule="evenodd" />
-                                                    </svg>
-                                                </a>
-
-                                                <a href="{{ route('admin.patient.edit', $patient->id) }}"
-                                                    class="action-btn btn-edit bs-tooltip " data-toggle="tooltip"
-                                                    data-placement="top" title="" data-bs-original-title="Edit">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="feather feather-edit-2">
-                                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
-                                                        </path>
-                                                    </svg>
-                                                </a>
-                                                <a href="{{ route('admin.patient.destroy', $patient->id) }}"
-                                                    onclick="return confirm('Are you sure?')"
-                                                    class="action-btn btn-delete bs-tooltip" data-toggle="tooltip"
-                                                    data-placement="top" title="" data-bs-original-title="Delete">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="feather feather-trash-2">
-                                                        <polyline points="3 6 5 6 21 6"></polyline>
-                                                        <path
-                                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                                        </path>
-                                                        <line x1="10" y1="11" x2="10"
-                                                            y2="17">
-                                                        </line>
-                                                        <line x1="14" y1="11" x2="14"
-                                                            y2="17">
-                                                        </line>
-                                                    </svg>
-                                                </a>
-                                            @endif
-
                                         </div>
                                     </td>
                                 </tr>

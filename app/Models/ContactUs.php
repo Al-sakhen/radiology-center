@@ -5,15 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Patient extends Model
+class ContactUs extends Model
 {
     use HasFactory;
-
     protected $guarded = [];
-
-
-    public function register()
-    {
-        return $this->hasOne(Register::class);
-    }
+    protected $table = 'contact_us';
 }

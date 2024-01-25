@@ -10,47 +10,60 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6 col-12 ">
-                        <form method="post" action="{{ route('admin.update', $admin->id) }}">
-                            @csrf
-                            <div class="form-group">
-                                <label for="name" class="">Name</label>
-                                <input id="name" type="text" name="name" value="{{ $admin->name }}"
-                                    placeholder="Name..." class="form-control" required>
+                <form method="post" action="{{ route('admin.update', $admin->id) }}">
+                    @csrf
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="name" class="">Name</label>
+                            <input id="name" type="text" name="name" value="{{ $admin->name }}"
+                                placeholder="Name..." class="form-control" required>
 
-                            </div>
+                        </div>
 
-                            @error('name')
-                                <p class="text text-danger"> {{ $message }} </p>
-                            @enderror
-                            <div class="form-group my-3">
+                        @error('name')
+                            <p class="text text-danger"> {{ $message }} </p>
+                        @enderror
+                        <div class="form-group col-md-6">
 
-                                <label for="email" class="">Email</label>
-                                <input id="email" type="email" name="email" value="{{ $admin->email }}"
-                                    placeholder="Email..." class="form-control" required>
+                            <label for="email" class="">Email</label>
+                            <input id="email" type="email" name="email" value="{{ $admin->email }}"
+                                placeholder="Email..." class="form-control" required>
 
-                            </div>
-                            @error('email')
-                                <p class="text text-danger"> {{ $message }} </p>
-                            @enderror
+                        </div>
+                        @error('email')
+                            <p class="text text-danger"> {{ $message }} </p>
+                        @enderror
 
 
-                            <div class="form-group">
-                                <label for="phone" class="">Phone</label>
-                                <input id="phone" type="text" name="phone" placeholder="Phone..."
-                                    value="{{ $admin->phone }}" class="form-control" required>
+                        <div class="form-group col-md-6">
+                            <label for="phone" class="">Phone</label>
+                            <input id="phone" type="text" name="phone" placeholder="Phone..."
+                                value="{{ $admin->phone }}" class="form-control" required>
 
-                            </div>
+                        </div>
 
-                            @error('phone')
-                                <p class="text text-danger"> {{ $message }} </p>
-                            @enderror
-                            <input type="submit" name="txt" value="update" class="mt-4 btn btn-primary">
-
-                        </form>
+                        @error('phone')
+                            <p class="text text-danger"> {{ $message }} </p>
+                        @enderror
                     </div>
-                </div>
+
+
+                    <div class="form-group mt-3">
+
+                        <label> Role : </label>
+                        <div class="d-flex gap-4 flex-wrap">
+                            @foreach ($roles as $role)
+                                <div>
+                                    <label for="role-{{ $role->id }}" class="">{{ $role->name }}</label>
+                                    <input id="role-{{ $role->id }}" @if ($admin->hasRole($role->name)) checked @endif
+                                        type="checkbox" name="role_ids[]" value="{{ $role->id }}">
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <input type="submit" name="txt" value="update" class="mt-4 btn btn-primary">
+
+                </form>
             </div>
         </div>
 

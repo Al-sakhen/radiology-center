@@ -15,6 +15,7 @@
     <link href="{{ asset('AdminAssets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('AdminAssets/css/dash_1.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('AdminAssets/css/plugins.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('AdminAssets/css/all.min.css') }}" rel="stylesheet" type="text/css" />
 
 
 </head>
@@ -46,12 +47,7 @@
                 </li>
             </ul>
 
-
-
             <ul class="navbar-item flex-row ms-lg-auto ms-0 action-area">
-
-
-
                 <li class="nav-item dropdown notification-dropdown">
                     <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="notificationDropdown"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -411,9 +407,11 @@
                             <li class="active">
                                 <a href="{{ route('admin.index') }}"> Show all </a>
                             </li>
-                            <li>
-                                <a href="{{ route('admin.create') }}"> Create </a>
-                            </li>
+                            @role('Manager')
+                                <li>
+                                    <a href="{{ route('admin.create') }}"> Create </a>
+                                </li>
+                            @endrole
                         </ul>
                     </li>
                     <li class="menu menu-heading">
@@ -424,7 +422,7 @@
                             </svg><span>APPLICATIONS</span></div>
                     </li>
 
-                    @if (auth()->user()->hasRole('Manager'))
+                    @role('Manager')
                         <li class="menu active">
                             <a href="#rolesandpermissions" data-bs-toggle="collapse" aria-expanded="false"
                                 class="dropdown-toggle">
@@ -449,8 +447,7 @@
                             <ul @class([
                                 'collapse submenu list-unstyled',
                                 'show' => request()->routeIs('admin.role.*'),
-                            ]) id="rolesandpermissions"
-                                data-bs-parent="#accordionExample">
+                            ]) id="rolesandpermissions" data-bs-parent="#accordionExample">
                                 <li class="active">
                                     <a href="{{ route('admin.role.index') }}"> Roles </a>
                                 </li>
@@ -465,8 +462,7 @@
                                 <div class="">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-pie-chart">
+                                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart">
                                         <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
                                         <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
                                     </svg>
@@ -474,7 +470,11 @@
                                 </div>
                             </a>
                         </li>
-                    @endif
+                    @endrole
+
+
+
+
 
 
 
@@ -521,6 +521,67 @@
 
                         </ul>
                     </li>
+
+                    <li class="menu active">
+                        <a href="{{ route('admin.centerInformation.index') }}" aria-expanded="false"
+                            class="dropdown-toggle ">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart">
+                                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                                    <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                                </svg>
+                                <span>Center Info</span>
+                            </div>
+                        </a>
+                    </li>
+
+
+                    @role('Admin')
+                        <li class="menu active">
+                            <a href="{{ route('admin.contactUs.index') }}" aria-expanded="false"
+                                class="dropdown-toggle ">
+                                <div class="d-flex align-items-center">
+                                    <i class="fa-solid fa-file-signature"
+                                        style="width: 24 ; font-size: 18px; padding-right: 5"></i>
+                                    <span class="ms-3">Contact Us</span>
+                                </div>
+                            </a>
+                        </li>
+                    @endrole
+                    @role('Admin|Manager')
+                        <li class="menu active">
+                            <a href="#homePage" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                    </svg>
+                                    <span>Home Page </span>
+                                </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="feather feather-chevron-right">
+                                        <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
+                                </div>
+                            </a>
+                            <ul class="collapse submenu list-unstyled" id="homePage" data-bs-parent="#accordionExample">
+                                <li class="active">
+                                    <a href="{{ route('admin.services.index') }}"> Services </a>
+                                </li>
+
+                                <li>
+                                    <a href="{{ route('admin.doctors.index') }}"> Dooctors</a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endrole
 
                 </ul>
 

@@ -7,98 +7,91 @@
                 <div class="widget-header">
                     <div class="row">
                         <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                            <h4>create report</h4>
+                            <h4>Create Report</h4>
                         </div>
                     </div>
                 </div>
                 <div class="widget-content widget-content-area">
 
-                    <div class="row">
-                        <div class="col-lg-6 col-12 ">
-                            <form method="post" action="{{ route('admin.patient.report.store') }}">
-                                @csrf
+                    <form method="post" action="{{ route('admin.patient.report.store') }}">
+                        @csrf
+                        <div class="row">
 
-                                <div class="form-group my-2">
-                                    <label for="name" class="">center name</label>
-                                    <input id="name" type="text" name="center_name" value="{{ old('center_name') }}"
-                                        placeholder="Name..." class="form-control" required>
-
-                                </div>
+                            <div class="form-group my-2 col-md-6">
+                                <label for="name" class="">center name</label>
+                                <input id="name" type="text" name="center_name"
+                                    value="{{ old('center_name', $public_center_informations->name) }}"
+                                    placeholder="Name..." class="form-control" required>
 
                                 @error('center_name')
-                                    <p class="text text-danger"> {{ $message }} </p>
+                                    <p class="text text-danger mt-2"> {{ $message }} </p>
                                 @enderror
+                            </div>
 
-                                <div class="form-group my-2">
-                                    <label for="center_description" class="">center description</label>
-                                    <input id="center_description" type="text" name="center_description"
-                                        placeholder="center description..." value="{{ old('center_description') }}"
-                                        class="form-control" required>
 
-                                </div>
 
-                                @error('center_description')
-                                    <p class="text text-danger"> {{ $message }} </p>
+
+                            <div class="form-group my-2 col-md-6">
+                                <label for="center_address" class="">Center address</label>
+                                <input id="center_address" type="text" name="center_address"
+                                    placeholder="center address..."
+                                    value="{{ old('center_address', $public_center_informations->address) }}"
+                                    class="form-control" required>
+
+                                @error('center_address')
+                                    <p class="text text-danger mt-2"> {{ $message }} </p>
                                 @enderror
+                            </div>
 
+                            <div class="form-group my-2 col-md-6">
 
-                                <div class="form-group my-2">
-                                    <label for="doctor_name" class="">doctor name</label>
-                                    <input id="doctor_name" type="text" name="doctor_name" placeholder="doctor name..."
-                                        value="{{ old('doctor_name') }}" class="form-control" required>
+                                <label for="center_phone" class="">Center phone </label>
+                                <input id="center_phone" type="text" name="center_phone"
+                                    value="{{ old('center_phone', $public_center_informations->phone) }}"
+                                    placeholder="Password..." class="form-control" required>
 
-                                </div>
+                                @error('center_phone')
+                                    <p class="text text-danger mt-2"> {{ $message }} </p>
+                                @enderror
+                            </div>
 
-
+                            <div class="form-group my-2 col-md-6">
+                                <label for="doctor_name" class="">Doctor name</label>
+                                <input id="doctor_name" type="text" name="doctor_name" placeholder="doctor name..."
+                                    value="{{ old('doctor_name') }}" class="form-control" required>
 
                                 @error('doctor_name')
-                                    <p class="text text-danger"> {{ $message }} </p>
+                                    <p class="text text-danger mt-2"> {{ $message }} </p>
                                 @enderror
+                            </div>
 
-                                <div class="form-group my-2">
+                            <div class="form-group my-2 col-md-6">
+                                <label for="center_description">Center description </label>
+                                <textarea id="center_description" name="center_description" readonly class="form-control description">{{ old('center_description', $public_center_informations->description) }}</textarea>
 
-                                    <label for="center_address" class="">center_address</label>
-                                    <input id="center_address" type="text" name="center_address"
-                                        placeholder="center address..." value="{{ old('center_address') }}"
-                                        class="form-control" required>
 
-                                </div>
-                                @error('center_address')
-                                    <p class="text text-danger"> {{ $message }} </p>
+                                @error('center_description')
+                                    <p class="text text-danger mt-2"> {{ $message }} </p>
                                 @enderror
-
-                                <div class="form-group my-2">
-
-                                    <label for="center_phone" class="">center phone </label>
-                                    <input id="center_phone" type="text" name="center_phone"
-                                        value="{{ old('center_phone') }}" placeholder="Password..." class="form-control"
-                                        required>
-
-                                </div>
-                                @error('center_phone')
-                                    <p class="text text-danger"> {{ $message }} </p>
-                                @enderror
+                            </div>
 
 
 
+                            <div class="form-group my-2">
+                                <label for="description">description </label>
+                                <textarea id="description" name="description" class="form-control description"> {{ old('address') }}</textarea>
 
-                                <div class="form-group my-2">
-
-                                    <label for="description" class="">description </label>
-                                    <textarea id="description"  name="description" class="form-control"> {{ old('address') }}</textarea>
-
-                                </div>
                                 @error('description')
-                                    <p class="text text-danger"> {{ $message }} </p>
+                                    <p class="text text-danger mt-2"> {{ $message }} </p>
                                 @enderror
+                            </div>
 
-                                <input type="hidden" name="register_id" value="{{ $registerId }}" />
-
-                                <input type="submit" name="txt" value="Add" class="mt-4 btn btn-primary">
-
-                            </form>
                         </div>
-                    </div>
+                        <input type="hidden" name="register_id" value="{{ $registerId }}" />
+
+                        <input type="submit" name="txt" value="Add" class="mt-4 btn btn-primary">
+
+                    </form>
 
                 </div>
             </div>
@@ -109,13 +102,12 @@
 @endsection
 
 @section('scripts')
-<script src="https://cdn.tiny.cloud/1/3fhsebbqik5pn34fw0xw8fywdpdirq0ltu2z8uxgnzcj3q97/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/3fhsebbqik5pn34fw0xw8fywdpdirq0ltu2z8uxgnzcj3q97/tinymce/6/tinymce.min.js"
+        referrerpolicy="origin"></script>
 
-<script>
- tinymce.init({
-        selector: '#description'
-      });
-
-</script>
-
+    <script>
+        tinymce.init({
+            selector: '.description'
+        });
+    </script>
 @endsection

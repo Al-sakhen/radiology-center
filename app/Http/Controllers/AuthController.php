@@ -7,26 +7,33 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function loginPage(){
+    public function loginPage()
+    {
 
         return view('Dashboard.Auth.login');
     }
 
-    public function login(Request $request  ){
+    public function login(Request $request)
+    {
 
-        $credentials = $request->only('email','password');
+        $credentials = $request->only('email', 'password');
 
-        if(Auth::guard('admin')->attempt($credentials)){
+        if (Auth::guard('admin')->attempt($credentials)) {
 
-            return redirect()->route('admin.index');
+            if (auth()->user()->status == 'active') {
+                return redirect()->route('admin.index');
+            } else {
+                auth()->logout();
+                return redirect()->back()->with('error', 'Your account is not active');
+            }
+        } else {
 
-        }else{
-
-            return redirect()->back();
+            return redirect()->back()->with('error', 'Email or Password is wrong');
         }
     }
 
-    public function logout(){
+    public function logout()
+    {
 
         Auth::guard('admin')->logout();
 

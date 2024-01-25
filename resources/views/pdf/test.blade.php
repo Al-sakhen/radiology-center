@@ -10,7 +10,6 @@
     <title>Document</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal&display=swap');
-
     </style>
 
 </head>
@@ -26,23 +25,31 @@
     <div>
         <h2 style="font-size:20px;text-align:center;margin-top:30px;padding:30px">X-RAY Report</h2>
         <table style="border:1px solid #000;border-collapse:collapse;width:100%;text-align:left">
-            <tr  style="border:1px solid #000" >
-                <td   style="border:1px solid #000;padding:5px"> Name : </td>
-                <td colspan="3" style="border:1px solid #000;text-align:left;padding:5px" >{{ $pateint->name }}</td>
+            <tr style="border:1px solid #000">
+                <td style="border:1px solid #000;padding:5px"> Name : </td>
+                <td colspan="3" style="border:1px solid #000;text-align:left;padding:5px">
+                    {{ $pateint->name }}
+                </td>
             </tr>
 
-            <tr  style="border:1px solid #000">
-                <td  style="border:1px solid #000;padding:5px">Referring physician</td>
-                <td  style="border:1px solid #000;padding:5px">{{ $data->doctor_name }}</td>
-                <td  style="border:1px solid #000;padding:5px">  sex : </td>
-                <td  style="border:1px solid #000;padding:5px"> </td>
+            <tr style="border:1px solid #000">
+                <td style="border:1px solid #000;padding:5px">Referring physician</td>
+                <td style="border:1px solid #000;padding:5px">
+                    {{ $data->doctor_name }}
+                </td>
+                <td style="border:1px solid #000;padding:5px"> sex : </td>
+                <td style="border:1px solid #000;padding:5px"> </td>
             </tr>
 
-            <tr  style="border:1px solid #000">
-                <td  style="border:1px solid #000;padding:5px"> Date : </td>
-                <td  style="border:1px solid #000;padding:5px">{{$data->created_at}}</td>
-                <td  style="border:1px solid #000;padding:5px">  Age :  </td>
-                <td  style="border:1px solid #000;padding:5px">{{ App\Http\Controllers\PatientController::getAge($pateint->DOB) }}</td>
+            <tr style="border:1px solid #000">
+                <td style="border:1px solid #000;padding:5px"> Date : </td>
+                <td style="border:1px solid #000;padding:5px">
+                    {{ $data->created_at }}
+                </td>
+                <td style="border:1px solid #000;padding:5px"> Age : </td>
+                <td style="border:1px solid #000;padding:5px">
+                    {{ App\Http\Controllers\PatientController::getAge($pateint->DOB) }}
+                </td>
             </tr>
 
         </table>
@@ -51,10 +58,9 @@
 
 
 
-   <div style="direction: ltr">
-
-    {!! $data->description !!}
-   </div>
+    <div style="direction: ltr">
+        {!! $data->description !!}
+    </div>
 
 </body>
 
