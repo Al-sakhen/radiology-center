@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('admin/login', [AuthController::class, 'loginPage'])->name('admin.login');
+Route::get('admin/login', [AuthController::class, 'loginPage'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('admin.checkLogin');
 
 
